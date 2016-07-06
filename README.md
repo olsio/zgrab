@@ -13,13 +13,13 @@ You will need to have a valid `$GOPATH` set up, for more information about `$GOP
 Once you have a working `$GOPATH`, run:
 
 ```
-go get github.com/zmap/zgrab
+go get github.com/olsio/zgrab
 ```
 
-This will install zgrab under `$GOPATH/src/github.com/zmap/zgrab`
+This will install zgrab under `$GOPATH/src/github.com/olsio/zgrab`
 
 ```
-$ cd $GOPATH/src/github.com/zmap/zgrab
+$ cd $GOPATH/src/github.com/olsio/zgrab
 $ go build
 ```
 

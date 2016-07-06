@@ -20,8 +20,8 @@ import (
 	"crypto/rsa"
 	"crypto/sha1"
 	// START CT CHANGES
-	"github.com/zmap/zgrab/ztools/zct/asn1"
-	"github.com/zmap/zgrab/ztools/zct/x509/pkix"
+	"github.com/olsio/zgrab/ztools/zct/asn1"
+	"github.com/olsio/zgrab/ztools/zct/x509/pkix"
 	// END CT CHANGES
 	"encoding/pem"
 	"errors"

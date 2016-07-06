@@ -17,7 +17,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/olsio/zgrab/ztools/x509"
 )
 
 // A Conn represents a secured connection.

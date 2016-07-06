@@ -14,7 +14,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/zmap/zgrab/ztools/ztls"
+	"github.com/olsio/zgrab/ztools/ztls"
 	"io"
 	"io/ioutil"
 	"mime"

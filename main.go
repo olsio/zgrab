@@ -25,11 +25,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zmap/zgrab/zlib"
-	"github.com/zmap/zgrab/ztools/processing"
-	"github.com/zmap/zgrab/ztools/x509"
-	"github.com/zmap/zgrab/ztools/zlog"
-	"github.com/zmap/zgrab/ztools/ztls"
+	"github.com/olsio/zgrab/zlib"
+	"github.com/olsio/zgrab/ztools/processing"
+	"github.com/olsio/zgrab/ztools/x509"
+	"github.com/olsio/zgrab/ztools/zlog"
+	"github.com/olsio/zgrab/ztools/ztls"
 )
 
 // Command-line flags

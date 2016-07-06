@@ -19,7 +19,7 @@ import (
  "regexp"
  "strings"
 
- "github.com/zmap/zgrab/ztools/util"
+ "github.com/olsio/zgrab/ztools/util"
 )
 
 const (

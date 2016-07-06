@@ -17,7 +17,7 @@ import (
 	"time"
 	"crypto/tls"
 
-	"github.com/zmap/zgrab/ztools/zct"
+	"github.com/olsio/zgrab/ztools/zct"
 	"github.com/mreiferson/go-httpclient"
 	"golang.org/x/net/context"
 )

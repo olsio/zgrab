@@ -5,7 +5,7 @@
 package http_test
 
 import (
-	"github.com/zmap/zgrab/ztools/http"
+	"github.com/olsio/zgrab/ztools/http"
 	"io/ioutil"
 	"os"
 	"path/filepath"

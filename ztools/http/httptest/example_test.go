@@ -6,8 +6,8 @@ package httptest_test
 
 import (
 	"fmt"
-	"github.com/zmap/zgrab/ztools/http"
-	"github.com/zmap/zgrab/ztools/http/httptest"
+	"github.com/olsio/zgrab/ztools/http"
+	"github.com/olsio/zgrab/ztools/http/httptest"
 	"io/ioutil"
 	"log"
 )

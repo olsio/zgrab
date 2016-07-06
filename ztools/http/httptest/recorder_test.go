@@ -6,7 +6,7 @@ package httptest
 
 import (
 	"fmt"
-	"github.com/zmap/zgrab/ztools/http"
+	"github.com/olsio/zgrab/ztools/http"
 	"testing"
 )
 

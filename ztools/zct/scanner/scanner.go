@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/op/go-logging"
-	"github.com/zmap/zgrab/ztools/zct"
-	"github.com/zmap/zgrab/ztools/zct/client"
-	"github.com/zmap/zgrab/ztools/zct/x509"
+	"github.com/olsio/zgrab/ztools/zct"
+	"github.com/olsio/zgrab/ztools/zct/client"
+	"github.com/olsio/zgrab/ztools/zct/x509"
 )
 
 var log *logging.Logger
