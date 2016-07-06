@@ -15,20 +15,46 @@
 package ftp
 
 import (
-	"net"
-	"regexp"
-	"strings"
+ "net"
+ "regexp"
+ "strings"
 
-	"github.com/zmap/zgrab/ztools/util"
+ "github.com/zmap/zgrab/ztools/util"
+)
+
+const (
+	READ_BUFFER_LENGTH = 8192
+	MAX_READ_SIZE = 65536
 )
 
 var ftpEndRegex = regexp.MustCompile(`^(?:.*\r?\n)*([0-9]{3})( [^\r\n]*)?\r?\n$`)
+
 
 func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
 	buffer := make([]byte, 1024)
 	respLen, err := util.ReadUntilRegex(connection, buffer, ftpEndRegex)
 	logStruct.Banner = string(buffer[0:respLen])
+	if err != nil {
+		return false, err
+	}
 
+	connection.Write([]byte("anonymous\r\n"))
+	respLen, err := util.ReadUntilRegex(connection, buffer, ftpEndRegex)
+	logStruct.Login = string(buffer[0:respLen])
+	if err != nil {
+		return false, err
+	}
+
+	connection.Write([]byte("me@earth.org\r\n"))
+	respLen, err := util.ReadUntilRegex(connection, buffer, ftpEndRegex)
+	logStruct.Login = string(buffer[0:respLen])
+	if err != nil {
+		return false, err
+	}
+
+	connection.Write([]byte("dir\r\n"))
+	respLen, err := ReadResponse(connection, buffer, ftpEndRegex)
+	logStruct.Content
 	if err != nil {
 		return false, err
 	}
@@ -36,6 +62,36 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
 	retCode := ftpEndRegex.FindStringSubmatch(logStruct.Banner)[1]
 
 	return strings.HasPrefix(retCode, "2"), nil
+}
+
+func ReadResponse(conn net.Conn) (response string, err error) {
+	var response []byte
+	buffer := make([]byte, READ_BUFFER_LENGTH)
+
+	numBytes := len(buffer)
+	rounds := int(math.Ceil(float64(MAX_READ_SIZE) / READ_BUFFER_LENGTH))
+	count := 0
+	for numBytes != 0 && count < rounds && numBytes == READ_BUFFER_LENGTH {
+
+		numBytes, err = conn.Read(buffer)
+
+		if err, ok := err.(net.Error); ok && err.Timeout() {
+			return nil, err
+		}
+
+		if err != nil && err != io.EOF {
+			return nil, err
+		}
+
+		if count == rounds-1 {
+			response = append(response, buffer[0:MAX_READ_SIZE%READ_BUFFER_LENGTH]...)
+		} else {
+			response = append(response, buffer[0:numBytes]...)
+		}
+		count += 1
+	}
+
+	return string(response), nil
 }
 
 func SetupFTPS(logStruct *FTPLog, connection net.Conn) (bool, error) {

@@ -15,7 +15,10 @@
 package ftp
 
 type FTPLog struct {
-	Banner      string `json:"banner,omitempty"`
-	AuthTLSResp string `json:"auth_tls_resp,omitempty"`
-	AuthSSLResp string `json:"auth_ssl_resp,omitempty"`
+  Banner      string `json:"banner,omitempty"`
+  Login       string `json:"login,omitempty"`
+  Password    string `json:"password,omitempty"`
+  Content     string `json:"content,omitempty"`
+  AuthTLSResp string `json:"auth_tls_resp,omitempty"`
+  AuthSSLResp string `json:"auth_ssl_resp,omitempty"`
 }
