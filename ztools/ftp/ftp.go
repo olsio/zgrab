@@ -25,9 +25,9 @@ import (
 var ftpEndRegex = regexp.MustCompile(`^(?:.*\r?\n)*([0-9]{3})( [^\r\n]*)?\r?\n$`)
 
 func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
-	buffer := make([]byte, 1024)
-	respLen, err := util.ReadUntilRegex(connection, buffer, ftpEndRegex)
-	logStruct.Banner = string(buffer[0:respLen])
+	code, message = Response(connection)
+	logStruct.Banner = message
+	logStruct.Content = code
 
 	if err != nil {
 		return false, err
@@ -36,6 +36,18 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
 	retCode := ftpEndRegex.FindStringSubmatch(logStruct.Banner)[1]
 
 	return strings.HasPrefix(retCode, "2"), nil
+}
+
+func Response(connection net.Conn) (code int, message string, err) {
+  ret := make([]byte, 1024)
+  n, err := connection.Read(ret)
+  if err != nil {
+		return nil, nil, err
+	}
+  msg := string(ret[:n])
+  code, _ = strconv.Atoi(msg[:3])
+  message = msg[4 : len(msg)-2]
+  return
 }
 
 func SetupFTPS(logStruct *FTPLog, connection net.Conn) (bool, error) {
