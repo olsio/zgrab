@@ -18,7 +18,6 @@ import (
 	"net"
 	"regexp"
 	"strings"
-	"strconv"
 
 	"github.com/zmap/zgrab/ztools/util"
 )
@@ -39,7 +38,7 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
 	return strings.HasPrefix(retCode, "2"), nil
 }
 
-func Response(connection net.Conn) (code string, message string, err error) {
+func Response(connection net.Conn) (string, string, error) {
   ret := make([]byte, 1024)
   n, err := connection.Read(ret)
   if err != nil {
@@ -47,8 +46,8 @@ func Response(connection net.Conn) (code string, message string, err error) {
 	}
   msg := string(ret[:n])
   code, _ = string(msg[:3])
-  message = msg[4 : len(msg)-2]
-  return
+  message = string(msg[4 : len(msg)-2])
+  return code, message, err
 }
 
 func SetupFTPS(logStruct *FTPLog, connection net.Conn) (bool, error) {
