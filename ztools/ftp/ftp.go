@@ -42,11 +42,11 @@ func Response(connection net.Conn) (string, string, error) {
   ret := make([]byte, 1024)
   n, err := connection.Read(ret)
   if err != nil {
-		return nil, nil, err
+		return "", "", err
 	}
   msg := string(ret[:n])
-  code, _ = string(msg[:3])
-  message = string(msg[4 : len(msg)-2])
+  code, _ := string(msg[:3])
+  message := string(msg[4 : len(msg)-2])
   return code, message, err
 }
 
