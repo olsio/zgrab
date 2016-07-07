@@ -45,7 +45,7 @@ func Response(connection net.Conn) (string, string, error) {
 		return "", "", err
 	}
   msg := string(ret[:n])
-  code, _ := string(msg[:3])
+  code := string(msg[:3])
   message := string(msg[4 : len(msg)-2])
   return code, message, err
 }
