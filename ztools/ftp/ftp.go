@@ -18,9 +18,7 @@ import (
 	"net"
 	"regexp"
 	"strings"
-	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/zmap/zgrab/ztools/util"
 )
@@ -41,14 +39,14 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
 	return strings.HasPrefix(retCode, "2"), nil
 }
 
-func Response(connection net.Conn) (code int, message string, err) {
+func Response(connection net.Conn) (code string, message string, err error) {
   ret := make([]byte, 1024)
   n, err := connection.Read(ret)
   if err != nil {
 		return nil, nil, err
 	}
   msg := string(ret[:n])
-  code, _ = strconv.Atoi(msg[:3])
+  code, _ = string(msg[:3])
   message = msg[4 : len(msg)-2]
   return
 }
