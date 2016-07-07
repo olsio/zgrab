@@ -18,6 +18,9 @@ import (
 	"net"
 	"regexp"
 	"strings"
+	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/zmap/zgrab/ztools/util"
 )
@@ -25,7 +28,7 @@ import (
 var ftpEndRegex = regexp.MustCompile(`^(?:.*\r?\n)*([0-9]{3})( [^\r\n]*)?\r?\n$`)
 
 func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
-	code, message = Response(connection)
+	code, message, err := Response(connection)
 	logStruct.Banner = message
 	logStruct.Content = code
 
