@@ -19,7 +19,6 @@ import (
 	"regexp"
 	"strings"
 	"fmt"
-	"github.com/smallfish/ftp"
 	"github.com/olsio/zgrab/ztools/util"
 )
 
