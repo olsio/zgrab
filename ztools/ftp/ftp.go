@@ -29,13 +29,13 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
   ftp.Debug = true
   ftp.conn = connection
   ftp.Response()
-  if (ftp.Code >= 200) && (ftp.Code < 300) {
+  if (!strings.HasPrefix(ftp.Code, "2")) {
   	fmt.Println("error")
     return false, nil
   }
 
   ftp.Login("anonymous", "me@earth.org")
-  if ftp.Code == 530 {
+  if ftp.Code == "530" {
   	fmt.Println("error: login failure")
     return false, nil
   }

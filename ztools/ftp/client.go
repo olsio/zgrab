@@ -14,7 +14,7 @@ type FTP struct {
   passwd  string
   pasv    int
   cmd     string
-  Code    int
+  Code    string
   Message string
   Debug   bool
   stream  []byte
@@ -43,11 +43,11 @@ func (ftp *FTP) Login(user, passwd string) {
   ftp.passwd = passwd
 }
 
-func (ftp *FTP) Response() (code int, message string) {
+func (ftp *FTP) Response() (code string, message string) {
   ret := make([]byte, 1024)
   n, _ := ftp.conn.Read(ret)
   msg := string(ret[:n])
-  code, _ = strconv.Atoi(msg[:3])
+  code, _ = msg[:3]
   message = msg[4 : len(msg)-2]
   ftp.debugInfo("<*cmd*> " + ftp.cmd)
   ftp.debugInfo(fmt.Sprintf("<*code*> %d", code))
