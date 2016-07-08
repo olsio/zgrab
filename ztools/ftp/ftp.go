@@ -38,9 +38,7 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
 		return false, err
 	}
 
-	retCode := ftpEndRegex.FindStringSubmatch(logStruct.Banner)[1]
-
-	return strings.HasPrefix(retCode, "2"), nil
+	return strings.HasPrefix(code, "2"), nil
 }
 
 func Response(connection net.Conn) (string, string, error) {
