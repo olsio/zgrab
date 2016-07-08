@@ -19,38 +19,22 @@ import (
 	"regexp"
 	"strings"
 	"fmt"
-
+	"github.com/smallfish/ftp"
 	"github.com/olsio/zgrab/ztools/util"
 )
 
 var ftpEndRegex = regexp.MustCompile(`^(?:.*\r?\n)*([0-9]{3})( [^\r\n]*)?\r?\n$`)
 
 func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
-	fmt.Printf("GetFTPBanner")
-	code, message, err := Response(connection)
-	fmt.Printf("code: %s\n", code)
-	fmt.Printf("message: %s\n", message)
-	fmt.Printf("err: %s\n", err)
-	logStruct.Banner = message
-	logStruct.Content = code
-
-	if err != nil {
-		return false, err
-	}
-
-	return strings.HasPrefix(code, "2"), nil
-}
-
-func Response(connection net.Conn) (string, string, error) {
-  ret := make([]byte, 1024)
-  n, err := connection.Read(ret)
-  if err != nil {
-		return "", "", err
-	}
-  msg := string(ret[:n])
-  code := string(msg[:3])
-  message := string(msg[4 : len(msg)-2])
-  return code, message, err
+	ftp := new(ftp.FTP)
+  ftp.Debug = true
+  ftp.conn = connection
+  ftp.Login("anonymous", "me@earth.org")
+  if ftp.Code == 530 {
+  	fmt.Println("error: login failure")
+    return false, nil
+  }
+	return true, nil
 }
 
 func SetupFTPS(logStruct *FTPLog, connection net.Conn) (bool, error) {
