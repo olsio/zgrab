@@ -29,8 +29,8 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
   ftp.Debug = true
   ftp.conn = connection
   ftp.Response()
-  if ftp.Code != 200 {
-  	fmt.Println("error: login failure")
+  if (ftp.Code >= 200) && (ftp.Code < 300) {
+  	fmt.Println("error")
     return false, nil
   }
 
