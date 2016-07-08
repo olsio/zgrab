@@ -25,7 +25,7 @@ import (
 var ftpEndRegex = regexp.MustCompile(`^(?:.*\r?\n)*([0-9]{3})( [^\r\n]*)?\r?\n$`)
 
 func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
-	ftp := new(ftp.FTP)
+	ftp := new(FTP)
   ftp.Debug = true
   ftp.conn = connection
   ftp.Login("anonymous", "me@earth.org")
