@@ -1,3 +1,5 @@
+package ftp
+
 import (
   "fmt"
   "net"
