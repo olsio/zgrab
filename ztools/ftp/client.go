@@ -28,14 +28,6 @@ func (ftp *FTP) debugInfo(s string) {
   }
 }
 
-func (ftp *FTP) Connect(host string, port int) {
-  addr := fmt.Sprintf("%s:%d", host, port)
-  ftp.conn, ftp.Error = net.Dial("tcp", addr)
-  ftp.Response()
-  ftp.host = host
-  ftp.port = port
-}
-
 func (ftp *FTP) Login(user, passwd string) {
   ftp.Request("USER " + user)
   ftp.Request("PASS " + passwd)
@@ -45,7 +37,10 @@ func (ftp *FTP) Login(user, passwd string) {
 
 func (ftp *FTP) Response() (code string, message string) {
   ret := make([]byte, 1024)
-  n, _ := ftp.conn.Read(ret)
+  n, err := ftp.conn.Read(ret)
+  fmt.Println("n: " + n)
+  fmt.Println("err: " + err)
+  fmt.Println("ret: " + ret)
   msg := string(ret[:n])
   if (len(msg) < 3) {
     code = "999"
