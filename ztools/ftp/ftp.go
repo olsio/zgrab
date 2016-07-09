@@ -40,7 +40,7 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
     return false, nil
   } else {
   	fmt.Println("login successful:")
-  	fmt.Println(message)
+  	fmt.Println(ftp.Message)
   }
 	return true, nil
 }
