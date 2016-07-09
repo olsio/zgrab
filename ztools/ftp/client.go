@@ -53,11 +53,7 @@ func (ftp *FTP) Response() (code string, message string) {
     code = msg[:3]
   }
 
-  if (len(msg) > 4) {
-    message = msg[4 : len(msg)-2]
-  } else {
-    message = ""
-  }
+  message = msg
 
   ftp.debugInfo("<*cmd*> " + ftp.cmd)
   ftp.debugInfo(fmt.Sprintf("<*code*> %d", code))
