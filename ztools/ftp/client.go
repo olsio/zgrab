@@ -43,7 +43,7 @@ func (ftp *FTP) Response() (code string, message string) {
   fmt.Println("err")
   fmt.Println(err)
   fmt.Println("ret:")
-  fmt.Println(ret)
+  fmt.Println(string(ret))
   msg := string(ret[:n])
   if (len(msg) < 3) {
     code = "999"
