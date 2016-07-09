@@ -38,9 +38,12 @@ func (ftp *FTP) Login(user, passwd string) {
 func (ftp *FTP) Response() (code string, message string) {
   ret := make([]byte, 1024)
   n, err := ftp.conn.Read(ret)
-  fmt.Println("n: " + n)
-  fmt.Println("err: " + err)
-  fmt.Println("ret: " + ret)
+  fmt.Println("n:")
+  fmt.Println(n)
+  fmt.Println("err")
+  fmt.Println(err)
+  fmt.Println("ret:")
+  fmt.Println(ret)
   msg := string(ret[:n])
   if (len(msg) < 3) {
     code = "999"
