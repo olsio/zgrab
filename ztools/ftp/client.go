@@ -47,8 +47,18 @@ func (ftp *FTP) Response() (code string, message string) {
   ret := make([]byte, 1024)
   n, _ := ftp.conn.Read(ret)
   msg := string(ret[:n])
-  code = msg[:3]
-  message = msg[4 : len(msg)-2]
+  if (len(msg) < 3) {
+    code = "999"
+  } else {
+    code = msg[:3]
+  }
+
+  if (len(msg) > 4) {
+    message = msg[4 : len(msg)-2]
+  } else {
+    message = ""
+  }
+
   ftp.debugInfo("<*cmd*> " + ftp.cmd)
   ftp.debugInfo(fmt.Sprintf("<*code*> %d", code))
   ftp.debugInfo("<*message*> " + message)
