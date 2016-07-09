@@ -26,7 +26,7 @@ var ftpEndRegex = regexp.MustCompile(`^(?:.*\r?\n)*([0-9]{3})( [^\r\n]*)?\r?\n$`
 
 func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
 	ftp := new(FTP)
-  ftp.Debug = true
+  ftp.Debug = false
   ftp.conn = connection
   ftp.Response()
   if (!strings.HasPrefix(ftp.Code, "2")) {
@@ -38,6 +38,9 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
   if ftp.Code == "530" {
   	fmt.Println("error: login failure")
     return false, nil
+  } else {
+  	fmt.Println("login successful:")
+  	fmt.Println(message)
   }
 	return true, nil
 }
