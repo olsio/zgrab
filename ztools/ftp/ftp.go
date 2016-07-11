@@ -29,9 +29,10 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
   ftp.Debug = false
   ftp.conn = connection
   ftp.Response()
-  if (!strings.HasPrefix(ftp.Code, "2")) {
+  if (ftp.Error) {
   	fmt.Println("error")
   	fmt.Println(ftp.Message)
+  	fmt.Println(ftp.Error)
     return false, nil
   }
 

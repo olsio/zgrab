@@ -35,7 +35,7 @@ func (ftp *FTP) Login(user, passwd string) {
   ftp.passwd = passwd
 }
 
-func (ftp *FTP) Response() (code string, message string) {
+func (ftp *FTP) Response() (code string, message string, err error) {
   ret := make([]byte, 1024)
   n, err := ftp.conn.Read(ret)
   fmt.Println("n:")
@@ -51,18 +51,13 @@ func (ftp *FTP) Response() (code string, message string) {
     code = msg[:3]
   }
 
-  message = msg
-
-  ftp.debugInfo("<*cmd*> " + ftp.cmd)
-  ftp.debugInfo(fmt.Sprintf("<*code*> %d", code))
-  ftp.debugInfo("<*message*> " + message)
   return
 }
 
 func (ftp *FTP) Request(cmd string) {
   ftp.conn.Write([]byte(cmd + "\r\n"))
   ftp.cmd = cmd
-  ftp.Code, ftp.Message = ftp.Response()
+  ftp.Code, ftp.Message, ftp.Error = ftp.Response()
   if cmd == "PASV" {
     start, end := strings.Index(ftp.Message, "("), strings.Index(ftp.Message, ")")
     s := strings.Split(ftp.Message[start:end], ",")
@@ -75,7 +70,7 @@ func (ftp *FTP) Request(cmd string) {
     ftp.debugInfo("<*response*> " + ftp.Message)
     ftp.pasv = 0
     ftp.stream = nil
-    ftp.Code, _ = ftp.Response()
+    ftp.Code, _, ftp.Error = ftp.Response()
   }
 }
 
