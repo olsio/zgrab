@@ -37,6 +37,7 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
   }
 
   ftp.Login("anonymous", "me@earth.org")
+  ftp.Response()
   if ftp.Code == "530" {
   	fmt.Println("error: login failure")
     return false, nil
