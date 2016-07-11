@@ -41,10 +41,21 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
   if ftp.Code == "530" {
   	fmt.Println("error: login failure")
     return false, nil
-  } else {
-  	fmt.Println("login successful:")
-  	fmt.Println(ftp.Message)
   }
+
+  fmt.Println("login successful:")
+  fmt.Println(ftp.Message)
+  ftp.List()
+  if (ftp.Error != nil) {
+  	fmt.Println("error")
+  	fmt.Println(ftp.Message)
+  	fmt.Println(ftp.Error)
+    return false, nil
+  }
+  ftp.Response()
+  fmt.Println("Code: " + ftp.Code)
+  fmt.Println("Messge: " + ftp.Message)
+
 	return true, nil
 }
 
