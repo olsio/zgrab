@@ -29,7 +29,7 @@ func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
   ftp.Debug = false
   ftp.conn = connection
   ftp.Response()
-  if (ftp.Error) {
+  if (ftp.Error != nil) {
   	fmt.Println("error")
   	fmt.Println(ftp.Message)
   	fmt.Println(ftp.Error)
