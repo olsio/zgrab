@@ -15,46 +15,50 @@
 package ftp
 
 import (
-	"net"
-	"regexp"
-	"strings"
-	"fmt"
-	"github.com/olsio/zgrab/ztools/util"
+ "net"
+ "regexp"
+ "strings"
+ "fmt"
+ "github.com/olsio/zgrab/ztools/util"
 )
 
 var ftpEndRegex = regexp.MustCompile(`^(?:.*\r?\n)*([0-9]{3})( [^\r\n]*)?\r?\n$`)
 
 func GetFTPBanner(logStruct *FTPLog, connection net.Conn) (bool, error) {
-	ftp := new(FTP)
-  ftp.Debug = false
-  ftp.conn = connection
-  ftp.Response()
-  if (ftp.Error != nil) {
-  	fmt.Println("error")
-  	fmt.Println(ftp.Message)
-  	fmt.Println(ftp.Error)
-    return false, nil
-  }
+	var err error
+	var ftp *goftp.FTP
 
-  ftp.Login("anonymous", "me@earth.org")
-  ftp.Response()
-  if ftp.Code == "530" {
-  	fmt.Println("error: login failure")
-    return false, nil
-  }
+	if ftp, err = goftp.Connect(connection); err != nil {
+		panic(err)
+	}
 
-  fmt.Println("login successful:")
-  fmt.Println(ftp.Message)
-  ftp.List()
-  if (ftp.Error != nil) {
-  	fmt.Println("error")
-  	fmt.Println(ftp.Message)
-  	fmt.Println(ftp.Error)
-    return false, nil
-  }
-  ftp.Response()
-  fmt.Println("Code: " + ftp.Code)
-  fmt.Println("Messge: " + ftp.Message)
+	defer ftp.Close()
+
+	if err = ftp.Login("anonymous", "me@earth.org"); err != nil {
+		fmt.Println("error: login failure")
+		return false, nil
+	}
+
+	if err = ftp.Cwd("/"); err != nil {
+		fmt.Println("error: cwd")
+		return false, nil
+	}
+
+	var curpath string
+	if curpath, err = ftp.Pwd(); err != nil {
+		fmt.Println("error: pwd")
+		return false, nil
+	}
+
+	fmt.Printf("Current path: %s", curpath)
+
+	var files []string
+	if files, err = ftp.List(""); err != nil {
+		fmt.Println("error: list")
+		return false, nil
+	}
+
+	fmt.Println(files)
 
 	return true, nil
 }
