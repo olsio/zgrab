@@ -20,6 +20,7 @@ import (
  "strings"
  "fmt"
  "github.com/olsio/zgrab/ztools/util"
+ "github.com/olsio/zgrab/ztools/goftp"
 )
 
 var ftpEndRegex = regexp.MustCompile(`^(?:.*\r?\n)*([0-9]{3})( [^\r\n]*)?\r?\n$`)
