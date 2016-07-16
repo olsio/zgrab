@@ -664,13 +664,8 @@ func (ftp *FTP) Login(username string, password string) (err error) {
 }
 
 // Connect to server at addr (format "host:port"). debug is OFF
-func Connect(addr string) (*FTP, error) {
+func Connect(conn net.Conn) (*FTP, error) {
   var err error
-  var conn net.Conn
-
-  if conn, err = net.Dial("tcp", addr); err != nil {
-    return nil, err
-  }
 
   writer := bufio.NewWriter(conn)
   reader := bufio.NewReader(conn)
@@ -683,13 +678,8 @@ func Connect(addr string) (*FTP, error) {
 }
 
 // ConnectDbg to server at addr (format "host:port"). debug is ON
-func ConnectDbg(addr string) (*FTP, error) {
+func ConnectDbg(conn net.Conn) (*FTP, error) {
   var err error
-  var conn net.Conn
-
-  if conn, err = net.Dial("tcp", addr); err != nil {
-    return nil, err
-  }
 
   writer := bufio.NewWriter(conn)
   reader := bufio.NewReader(conn)
